@@ -1,4 +1,4 @@
-require_relative "numbers"
+require_relative "numbers.rb"
 gem 'pry'
 
 describe Numbers do
