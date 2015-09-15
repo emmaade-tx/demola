@@ -11,3 +11,4 @@ class JeffsArray
     @jeffs_arr.length
   end
 end
+puts JeffsArray.new([1,2,3,4,5,'a'])

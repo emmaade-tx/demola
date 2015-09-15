@@ -7,17 +7,30 @@ class GameProcess
         def play_one
                10.times {|i| puts "You have tried #{i+1} time. You have #{10+i} attempt left/n Try again:"}
                    current_guess = @player_one.guess_code
-                   checking = evaluate_guess(current_guess)
+                   checking = calculate_guess(current_guess)
                    if checking[:exact].length == 4
                     puts "You won the game in time"
                     return
                   else
-                    puts "You had #{checking[:exact].length} guess Matches and #{checking[:near].length} near matches"
+                    puts "You had #{checking[:exact].length} guess Matches and #{checking[:partial].length} near matches"
               end
 
             puts "You lost!"
             return
           end
+
+          def calculate_guess(current_guess)
+            results = { :exact => [], :partial => [] }
+            current_guess.each_with_index do |choice, position|
+              if exact_match?(choice, position)
+                results[:exact] << true
+              elsif partial_match?(choice)
+                results[:partial] << true
+              end
+            end
+            results
+          end
+
 
 end
 
@@ -28,7 +41,7 @@ class Computer
     @code_combination = code
   end
 
-  def code
+  def code_beginner
     colors = ['B', 'G', 'Y', 'R']
     colors_rand = Random.new
     generated_code = []
@@ -37,25 +50,21 @@ class Computer
   end
 end
 
-class Player1
+class player_one
   def guess_code_one
     puts "What is your guess?"
-    converted_guess_one(gets.chomp)
-  end
-
-  def converted_guess_one(guess_two)
-    guess.split('')
+    converted_guess_one = gets.chomp
+    converted_guess_one.split('')
+    return GameProcess.play_one
   end
 end
 
 
-class Player2
-    def guess_code_two
+class Player_two
+  def guess_code_one
     puts "What is your guess?"
-    converted_guess_two(gets.chomp)
-  end
-
-  def converted_guess_two(guess_two)
-    guess_two.split('')
+    converted_guess_two = gets.chomp
+    converted_guess_two.split('')
+    return GameProcess.play_two
   end
 end
