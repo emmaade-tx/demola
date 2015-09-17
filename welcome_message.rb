@@ -19,7 +19,12 @@ Enter (2) for Intermediate,
 Enter (3) for Advanced."
     @level = gets.chomp
     if @level == "1"
-      puts "So you would like to play the game!,\n start by telling me your name\n"
+      puts "Do you want to play as a single-Player or Multi-player? if single-Player, type s and if Multi-player, type m"
+      @player = gets.chomp
+
+      if @player == "s"
+
+      puts "So you would like to play the game!, start by telling me your name:\n"
         @name = gets.chomp
         @name_convert = @name.upcase
         puts "#{@name_convert} ".green + ", I have generated a beginner sequence with four elements made up of:\n"
@@ -27,6 +32,28 @@ puts "(y)ellow, ".yellow + " (c)yan, ".cyan + " (b)lue,".blue + " and " + " (r)e
 colors appeared e.g YCOR for " + "(y)ellow, ".yellow + " (c)yan,".cyan + " (b)lue,".blue + " (r)ed,".red + " You have 10 guesses to get these colors or you lose the game.
 Ready to " + " play?".blue + "\n" + " Enter your Four Color guesses:"
     GameEngine.new.play_calc_exact_partial @level, @name_convert
+
+
+  elsif @player == "m"
+
+    puts "So you would like to play the game as a multiplayer!,\n start by telling me your names\n"
+    puts "First User:"
+      @name_one = gets.chomp
+      @name_convert_one = @name_one.upcase
+      puts "Second User:"
+      @name_two = gets.chomp
+      @name_convert_two = @name_two.upcase
+      puts "#{@name_convert_one}".green + " and" + " #{@name_convert_two} ".green + ", I have generated a beginner sequence with four elements made up of:\n"
+puts "(y)ellow, ".yellow + " (c)yan, ".cyan + " (b)lue,".blue + " and " + " (r)ed,".red + " You are to guess the sequence in which the
+colors appeared e.g YCOR for " + "(y)ellow, ".yellow + " (c)yan,".cyan + " (b)lue,".blue + " (r)ed,".red + " You have 10 guesses to get these colors or you lose the game.
+Ready to " + " play?".blue + "\n" + " the first to guess correctly wins the game\n Enter your Four Color guesses:"
+  MultiPlayer.new.game_engine_multiplayer @level, @name_convert_one, @name_convert_two
+else
+  puts "You inputed the wrong key"
+  WelcomeMessage.start_message
+end
+
+
 elsif @level == "2"
   puts "So you would like to play the game!,\n start by telling me your name\n"
     @name = gets.chomp

@@ -1,4 +1,4 @@
- require_relative 'welcome_message'
+require_relative 'welcome_message'
 require 'colorize'
 require 'json'
 require 'pry'
@@ -50,9 +50,6 @@ class GameEngine #this is the engine of the game as the name implies, it gets th
           10.times do |i| # this loop is to record the number of times the user can guess at each time, the partial and exact calculation are ongoing within the loop
 
           guess_one = (gets.chomp).split('') #this line of code gets the user's guess and convert it into an array
-          if guess_one == "["x"]"
-            p generated_code
-          end
             exact_match = 0 #counter for exact match
             partial_match = 0 #counter for partial match
             check = generated_code.zip(guess_one) #this line of code combine merges the computer generated code and the guess code and the output is saved into a check variable
@@ -144,19 +141,83 @@ class TopScore #this class have only one method, contains IO file that reads the
     end
   end
 # Working on having a multiplayer where they can pass a turn..... still in progress
-class Player_one
-  def guess_code_one
-    puts "What is your guess?"
-    guess_one = gets.chomp
-    return GameProcess.play_one
-  end
+class MultiPlayer
+  def game_engine_multiplayer level, name_convert_one, name_convert_two
+    start_time=Time.now # this line of code records the starting time
+    generated_code = Difficulty.code_level level  #this line of code gets the computer generated code for any the level as picked by the user
+    p generated_code
+      10.times do |i| # this loop is to record the number of times the user can guess at each time, the partial and exact calculation are ongoing within the loop
+        puts "#{name_convert_one} ".green + ", input your four guesses "
+      guess_one = (gets.chomp).split('') #this line of code gets the user's guess and convert it into an array
+        exact_match = 0 #counter for exact match
+        partial_match = 0 #counter for partial match
+        check = generated_code.zip(guess_one) #this line of code combine merges the computer generated code and the guess code and the output is saved into a check variable
+          check.each do |i| #loop through the check variable to get the elements
+          if i[0] == i[1]
+              exact_match += 1 #elements that has the same first index and second index are considered to be exact
+          else
+              if generated_code.include?i[1] #this line od code of check the check variable and gets the second index that is only present in the generated code, those are the partial
+                  partial_match += 1
+              end
+          end
+      end
+
+if exact_match == generated_code.length # at a point where we have the same length of computer generated code and exact match, game ends and the user won the game
+         end_time=Time.now #time stops
+         @finished_time = end_time-start_time
+         puts "CONGRATULATION, #{name_convert_one}! ".blue + " You guessed the sequence " + " #{generated_code} ".red + " in" + " #{@finished_time}".cyan + "You won the game"
+
+         TopScore.topscore_file name_convert_one, @finished_time
+
+         break # at the point where the exact match equals the computer code length, the loop breaks, if not the loops continues
+else
+puts "#{name_convert_one} ".blue + ": #{guess_one} ".cyan + " has " + "#{partial_match} ".magenta + " partial match with " + "#{exact_match} ".blue + "
+exact match in the correct positions. You have taken " + "#{i+1}".cyan
+
+    end
+
+    start_time=Time.now # this line of code records the starting time
+    generated_code = Difficulty.code_level level  #this line of code gets the computer generated code for any the level as picked by the user
+
+
+        puts "#{name_convert_two} ".green + ", input your four guesses "
+      guess_two = (gets.chomp).split('') #this line of code gets the user's guess and convert it into an array
+        exact_match = 0 #counter for exact match
+        partial_match = 0 #counter for partial match
+        check = generated_code.zip(guess_one) #this line of code combine merges the computer generated code and the guess code and the output is saved into a check variable
+          check.each do |i| #loop through the check variable to get the elements
+          if i[0] == i[1]
+              exact_match += 1 #elements that has the same first index and second index are considered to be exact
+          else
+              if generated_code.include?i[1] #this line od code of check the check variable and gets the second index that is only present in the generated code, those are the partial
+                  partial_match += 1
+              end
+          end
+      end
+
+if exact_match == generated_code.length # at a point where we have the same length of computer generated code and exact match, game ends and the user won the game
+         end_time=Time.now #time stops
+         @finished_time = end_time-start_time
+         puts "CONGRATULATION, #{name_convert_two}! ".blue + " You guessed the sequence " + " #{generated_code} ".red + " in" + " #{@finished_time}".cyan + "You won the game"
+
+         TopScore.topscore_file name_convert, @finished_time
+
+         break # at the point where the exact match equals the computer code length, the loop breaks, if not the loops continues
+else
+puts "#{guess_two} ".cyan + " has " + "#{partial_match} ".magenta + " partial match with " + "#{exact_match} ".blue + "
+exact match in the correct positions. You have taken " + "#{i+1}".cyan
+
+    end
+
 end
-
-
-class Player_two
-  def guess_code_one
-    puts "What is your guess?"
-    guess_two = gets.chomp
-    return GameProcess.play_two
-  end
+#Here, the loops is completed, the user has reached the number of time, so he lost the game
+puts "Both of you lost badly, " + "SORRY!".red + " Do you want to " + " Try again?".cyan + " Enter " + " (y)".blue + " for" + " Yes".blue + " or any key for " + "No\n".red
+feedback = gets.chomp
+if feedback == "y"
+  WelcomeMessage.new.introduction_message
+else
+   puts "Thank you for playing Mastermind MultiPlayer\n Good byebye".blue
+ system(exit) #this code breaks the whole of my code and leaves the entire game
+end
+end
 end
