@@ -46,10 +46,13 @@ class GameEngine #this is the engine of the game as the name implies, it gets th
 
         start_time=Time.now # this line of code records the starting time
         generated_code = Difficulty.code_level level  #this line of code gets the computer generated code for any the level as picked by the user
-        p generated_code
+
           10.times do |i| # this loop is to record the number of times the user can guess at each time, the partial and exact calculation are ongoing within the loop
 
           guess_one = (gets.chomp).split('') #this line of code gets the user's guess and convert it into an array
+          if guess_one == "["x"]"
+            p generated_code
+          end
             exact_match = 0 #counter for exact match
             partial_match = 0 #counter for partial match
             check = generated_code.zip(guess_one) #this line of code combine merges the computer generated code and the guess code and the output is saved into a check variable
@@ -120,11 +123,16 @@ class TopScore #this class have only one method, contains IO file that reads the
           top_scores.each do |x| #iterating through the hash to get the the element in order to print the username and finished time
             #binding.pry
             puts "#{x["name"]} ............#{x["time"]}secs"
-
+          end
             puts "You have just seen the top score, do you want to play again or quit the game? Type" + " p".blue + " to play again and" + " q".red + " to quit"
             final_reply = gets.chomp
-
+            if final_reply == "p"
+            WelcomeMessage.new.introduction_message
+          else
+            puts "Thank you for playing Mastermind\n Good byebye".blue
+            system(exit)
           end
+
         elsif reply == "n"
         WelcomeMessage.new.introduction_message
       else
