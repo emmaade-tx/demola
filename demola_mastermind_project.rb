@@ -89,34 +89,35 @@ class GameEngine #this is the engine of the game as the name implies, it gets th
 
 end
 end
-class TopScore
-    def self.topscore_file name_convert, finished_time
+class TopScore #this class have only one method, contains IO file that reads the name and time of the player to be able to set top ten
+    def self.topscore_file name_convert, finished_time  #collect the name and finished time from the user
 
-        file = File.read("score.json")
-        score = JSON.parse(file)
+        file = File.read("score.json")  #this IO file read from json file score.json
+        score = JSON.parse(file)   #the line of code convert the json file into hash
         len = score["scores"].length
 
-        record = Hash.new
-        record["name"] = name_convert
-        record["time"] = finished_time
-        score["scores"][len] = record
+        record = Hash.new # create a new hash
+        record["name"] = name_convert # save the name of the user in a key
+        record["time"] = finished_time # save the finished time in the a key
+        score["scores"][len] = record # put the the new generated elements in the new hash
 
-        name_score = score.to_json
+        name_score = score.to_json # converted back to json
 
+            #saving the converted json file into its proper place by writing in it
         file = File.new("score.json", 'w')
         file.write(name_score)
         file.close
 
-        file = File.read("score.json")
-        top_score = JSON.parse(file)
+        file = File.read("score.json") # reading the new file
+        top_score = JSON.parse(file) #converting into hash for usage
 
-        top_scores = top_score["scores"].sort_by {|x| x["time"]}
+        top_scores = top_score["scores"].sort_by {|x| x["time"]} #iterating through the hash and sorting it with time
           puts "Do you want to view the top score? type" + " y".blue + " for yes," + " N".magenta + " for no and" + " q".red + " to quit the game"
           reply = gets.chomp
           if reply == "y"
           #binding.pry
           puts "******TOP SCORES******"
-          top_scores.each do |x|
+          top_scores.each do |x| #iterating through the hash to get the the element in order to print the username and finished time
             #binding.pry
             puts "#{x["name"]} ............#{x["time"]}secs"
 
