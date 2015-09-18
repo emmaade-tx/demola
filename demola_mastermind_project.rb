@@ -123,7 +123,6 @@ class TopScore #this class have only one method, contains IO file that reads the
             #binding.pry
             puts "______________________________________________________________"
             puts "#{x["name"]}              #{x["time"]}secs"
-
           end
           puts "______________________________________________________________"
             puts "You have just seen the top score, do you want to play again or quit the game? Type" + " p".blue + " to play again and" + " q".red + " to quit"
