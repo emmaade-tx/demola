@@ -3,7 +3,6 @@ require 'colorize'
 require 'json'
 require 'pry'
 class Computer #the computer class has 3 methods which generate 3 different codes for each level
-
 #this method generates 4 random codes
   def self.code_beginner
     colors = ['y', 'c', 'b', 'r']
@@ -50,6 +49,10 @@ class GameEngine #this is the engine of the game as the name implies, it gets th
           10.times do |i| # this loop is to record the number of times the user can guess at each time, the partial and exact calculation are ongoing within the loop
 
           guess_one = (gets.chomp).split('') #this line of code gets the user's guess and convert it into an array
+          if guess_one == "ch".split('')
+            p generated_code
+          end
+
             exact_match = 0 #counter for exact match
             partial_match = 0 #counter for partial match
             check = generated_code.zip(guess_one) #this line of code combine merges the computer generated code and the guess code and the output is saved into a check variable
@@ -86,7 +89,6 @@ class GameEngine #this is the engine of the game as the name implies, it gets th
        puts "Thank you for playing Mastermind\n Good byebye".blue
      system(exit) #this code breaks the whole of my code and leaves the entire game
    end
-
 end
 end
 class TopScore #this class have only one method, contains IO file that reads the name and time of the player to be able to set top ten
@@ -151,9 +153,12 @@ class MultiPlayer
     generated_code = Difficulty.code_level level  #this line of code gets the computer generated code for any the level as picked by the user
 
       10.times do |i| # this loop is to record the number of times the user can guess at each time, the partial and exact calculation are ongoing within the loop
-        p generated_code
+
         puts "#{name_convert_one} ".green + ", input your four guesses "
       guess_one = (gets.chomp).split('') #this line of code gets the user's guess and convert it into an array
+      if guess_one == "ch".split('')
+        p generated_code
+      end
         exact_match_one = 0 #counter for exact match
         partial_match_one = 0 #counter for partial match
         check = generated_code.zip(guess_one) #this line of code combine merges the computer generated code and the guess code and the output is saved into a check variable
@@ -186,6 +191,9 @@ exact match in the correct positions. You have taken " + "#{i+1}".cyan + " attem
 
         puts "#{name_convert_two} ".green + ", input your four guesses "
       guess_two = (gets.chomp).split('') #this line of code gets the user's guess and convert it into an array
+      if guess_two == "ch".split('')
+        p generated_code
+      end
         exact_match_two = 0 #counter for exact match
         partial_match_two = 0 #counter for partial match
         check = generated_code.zip(guess_two) #this line of code combine merges the computer generated code and the guess code and the output is saved into a check variable
