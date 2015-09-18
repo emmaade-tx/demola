@@ -73,7 +73,7 @@ class GameEngine #this is the engine of the game as the name implies, it gets th
              break # at the point where the exact match equals the computer code length, the loop breaks, if not the loops continues
     else
     puts "#{guess_one} ".cyan + " has " + "#{partial_match} ".magenta + " partial match with " + "#{exact_match} ".blue + "
-    exact match in the correct positions. You have taken " + "#{i+1}".cyan
+    exact match in the correct positions. You have taken " + "#{i+1}".cyan + " attempt or guess(s)"
 
         end
     end
@@ -116,11 +116,16 @@ class TopScore #this class have only one method, contains IO file that reads the
           reply = gets.chomp
           if reply == "y"
           #binding.pry
+          puts "========================="
           puts "******TOP SCORES******"
+          puts "========================="
           top_scores.each do |x| #iterating through the hash to get the the element in order to print the username and finished time
             #binding.pry
-            puts "#{x["name"]} ............#{x["time"]}secs"
+            puts "______________________________________________________________"
+            puts "#{x["name"]}              #{x["time"]}secs"
+
           end
+          puts "______________________________________________________________"
             puts "You have just seen the top score, do you want to play again or quit the game? Type" + " p".blue + " to play again and" + " q".red + " to quit"
             final_reply = gets.chomp
             if final_reply == "p"
@@ -145,24 +150,25 @@ class MultiPlayer
   def game_engine_multiplayer level, name_convert_one, name_convert_two
     start_time=Time.now # this line of code records the starting time
     generated_code = Difficulty.code_level level  #this line of code gets the computer generated code for any the level as picked by the user
-    p generated_code
+
       10.times do |i| # this loop is to record the number of times the user can guess at each time, the partial and exact calculation are ongoing within the loop
+        p generated_code
         puts "#{name_convert_one} ".green + ", input your four guesses "
       guess_one = (gets.chomp).split('') #this line of code gets the user's guess and convert it into an array
-        exact_match = 0 #counter for exact match
-        partial_match = 0 #counter for partial match
+        exact_match_one = 0 #counter for exact match
+        partial_match_one = 0 #counter for partial match
         check = generated_code.zip(guess_one) #this line of code combine merges the computer generated code and the guess code and the output is saved into a check variable
           check.each do |i| #loop through the check variable to get the elements
           if i[0] == i[1]
-              exact_match += 1 #elements that has the same first index and second index are considered to be exact
+              exact_match_one += 1 #elements that has the same first index and second index are considered to be exact
           else
               if generated_code.include?i[1] #this line od code of check the check variable and gets the second index that is only present in the generated code, those are the partial
-                  partial_match += 1
+                  partial_match_one += 1
               end
           end
       end
 
-if exact_match == generated_code.length # at a point where we have the same length of computer generated code and exact match, game ends and the user won the game
+if exact_match_one == generated_code.length # at a point where we have the same length of computer generated code and exact match, game ends and the user won the game
          end_time=Time.now #time stops
          @finished_time = end_time-start_time
          puts "CONGRATULATION, #{name_convert_one}! ".blue + " You guessed the sequence " + " #{generated_code} ".red + " in" + " #{@finished_time}".cyan + "You won the game"
@@ -171,41 +177,40 @@ if exact_match == generated_code.length # at a point where we have the same leng
 
          break # at the point where the exact match equals the computer code length, the loop breaks, if not the loops continues
 else
-puts "#{name_convert_one} ".blue + ": #{guess_one} ".cyan + " has " + "#{partial_match} ".magenta + " partial match with " + "#{exact_match} ".blue + "
-exact match in the correct positions. You have taken " + "#{i+1}".cyan
+puts "#{name_convert_one} ".blue + ": #{guess_one} ".cyan + " has " + "#{partial_match_one} ".magenta + " partial match with " + "#{exact_match_one} ".blue + "
+exact match in the correct positions. You have taken " + "#{i+1}".cyan + " attempt or guess(s)"
 
     end
 
     start_time=Time.now # this line of code records the starting time
-    generated_code = Difficulty.code_level level  #this line of code gets the computer generated code for any the level as picked by the user
-
+    #this line of code gets the computer generated code for any the level as picked by the user
 
         puts "#{name_convert_two} ".green + ", input your four guesses "
       guess_two = (gets.chomp).split('') #this line of code gets the user's guess and convert it into an array
-        exact_match = 0 #counter for exact match
-        partial_match = 0 #counter for partial match
-        check = generated_code.zip(guess_one) #this line of code combine merges the computer generated code and the guess code and the output is saved into a check variable
+        exact_match_two = 0 #counter for exact match
+        partial_match_two = 0 #counter for partial match
+        check = generated_code.zip(guess_two) #this line of code combine merges the computer generated code and the guess code and the output is saved into a check variable
           check.each do |i| #loop through the check variable to get the elements
           if i[0] == i[1]
-              exact_match += 1 #elements that has the same first index and second index are considered to be exact
+              exact_match_two += 1 #elements that has the same first index and second index are considered to be exact
           else
               if generated_code.include?i[1] #this line od code of check the check variable and gets the second index that is only present in the generated code, those are the partial
-                  partial_match += 1
+                  partial_match_two += 1
               end
           end
       end
 
-if exact_match == generated_code.length # at a point where we have the same length of computer generated code and exact match, game ends and the user won the game
+if exact_match_two == generated_code.length # at a point where we have the same length of computer generated code and exact match, game ends and the user won the game
          end_time=Time.now #time stops
          @finished_time = end_time-start_time
          puts "CONGRATULATION, #{name_convert_two}! ".blue + " You guessed the sequence " + " #{generated_code} ".red + " in" + " #{@finished_time}".cyan + "You won the game"
 
-         TopScore.topscore_file name_convert, @finished_time
+         TopScore.topscore_file name_convert_two, @finished_time
 
          break # at the point where the exact match equals the computer code length, the loop breaks, if not the loops continues
 else
-puts "#{guess_two} ".cyan + " has " + "#{partial_match} ".magenta + " partial match with " + "#{exact_match} ".blue + "
-exact match in the correct positions. You have taken " + "#{i+1}".cyan
+puts "#{guess_two} ".cyan + " has " + "#{partial_match_two} ".magenta + " partial match with " + "#{exact_match_two} ".blue + "
+exact match in the correct positions. You have taken " + "#{i+1}".cyan + " attempt or guess(s)"
 
     end
 
